@@ -1,10 +1,6 @@
 import Game from './game.js'
 
-const game = Game({
-  length: 4,
-  width: 4,
-  height: 4
-})
+const game = Game({ size: [4, 4, 4] })
 
 console.log(game)
 

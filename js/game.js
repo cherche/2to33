@@ -1,20 +1,15 @@
 import { getRandomInt, getRandomVal } from './probability.js'
+import Array3 from './array3.js'
 
-export default function Game ({ length, width, height }) {
-  const map = []
-
-  // Create the map (3D array) based on the dimensions
-  for (let x = 0; x < length; x++) {
-    const sub = []
-    for (let y = 0; y < width; y++) {
-      sub.push(new Array(height).fill(0))
-    }
-    map.push(sub)
-  }
+export default function Game ({ size }) {
+  const [length, width, height] = size
+  const map = Array3({ fill: 0, size })
 
   // This stuff just deals with order of iteration
-  // Sometimes we want to move horizontally (fix the y-axis)
-  // Sometimes we want to move verticaly (fix the x-axis)
+  // Sometimes, we want to move:
+  // * east-west (fix the x-axis)
+  // * north-south (fix the y-axis)
+  // * up-down (fix the z-axis)
   const orient = function orient ([m, n, a], axis) {
     const orientations = {
       0: [a, n, m],
@@ -28,7 +23,7 @@ export default function Game ({ length, width, height }) {
   // I will need to add some sort of check to see if
   // there are any valid moves
   const move = function move (axis, dir) {
-        // For brevity, we'll define a local orient function
+    // For brevity, we'll define a local orient function
     const lOrient = function lOrient (vals) {
       return orient(vals, axis)
     }
@@ -38,6 +33,7 @@ export default function Game ({ length, width, height }) {
 
     for (let m = 0; m < mMax; m++) {
       for (let n = 0; n < nMax; n++) {
+        // Start by gathering all of the stuff that we care about (not 0)
         const nonBlanks = []
 
         for (let a = 0; a < aMax; a++) {
