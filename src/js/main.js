@@ -14,6 +14,7 @@ const $main = document.body.querySelector('main')
 const $cells = Array3({ size })
 for (let z = 0; z < HEIGHT; z++) {
   const $table = document.createElement('table')
+  $table.className = 't' + z
   const $tbody = document.createElement('tbody')
   $table.appendChild($tbody)
   for (let y = 0; y < WIDTH; y++) {

@@ -16,11 +16,11 @@ main td {
 }
 
 .controls.cardinal td[class] {
-  background-color: #e76a6a;
+  background-color: #5d92cb;
 }
 
 .controls.elevation td[class] {
-  background-color: #5d92cb;
+  background-color: #6cc19c;
 }
 
 td.d2,
@@ -63,6 +63,7 @@ td.d64 {
 
 td.d128,
 td.d256,
-td.d512 {
+td.d512,
+td.d1024 {
   background-color: #EFD26A;
 }
