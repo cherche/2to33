@@ -7,10 +7,6 @@ main table {
   background-color: #bdad9f;
 }
 
-main td {
-  background-color: #cfc1b3;
-}
-
 .controls {
   color: white;
 }
@@ -23,47 +19,50 @@ main td {
   background-color: #6cc19c;
 }
 
-td.d2,
-td.d4 {
+/* Empty spaces */
+main td.d0 {
+  background-color: #cfc1b3;
+}
+
+main td.d2,
+main td.d4 {
   color: #786e64;
 }
 
-td.d8,
-td.d16,
-td.d32,
-td.d64,
-td.d128,
-td.d256 {
+main td.d8,
+main td.d16,
+main td.d32,
+main td.d64,
+main td.d128,
+main td.d256 {
   color: #f8f5f1;
 }
 
-td.d2 {
+main td.d2 {
   background-color: #efe4d9;
 }
 
-td.d4 {
+main td.d4 {
   background-color: #eee1c7;
 }
 
-td.d8 {
+main td.d8 {
   background-color: #fbae71;
 }
 
-td.d16 {
+main td.d16 {
   background-color: #f18553;
 }
 
-td.d32 {
-  background-color: #FF6C53;
+main td.d32 {
+  background-color: #ff6c53;
 }
 
-td.d64 {
-  background-color: #FF401E;
+main td.d64 {
+  background-color: #ff401e;
 }
 
-td.d128,
-td.d256,
-td.d512,
-td.d1024 {
-  background-color: #EFD26A;
+/* For any higher numbers, just go with this yellow */
+main td {
+  background-color: #efd26a;
 }
