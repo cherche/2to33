@@ -9,7 +9,53 @@ const game = Game({ size })
 game.addRandomTile()
 game.addRandomTile()
 
-const $main = document.body.querySelector('main')
+const $container = document.createElement('div')
+$container.className = 'container'
+
+// Set up the game area
+const $main = document.createElement('main')
+$container.appendChild($main)
+
+// Set up the controls
+const getTableFromArray2 = function getTableFromArray2 (arr2, process) {
+  const [width, height] = [arr2[0].length, arr2.length]
+  const $table = document.createElement('table')
+  const $tbody = document.createElement('tbody')
+
+  for (let y = 0; y < height; y++) {
+    const $tr = document.createElement('tr')
+    for (let x = 0; x < width; x++) {
+      $tr.appendChild(process(arr2[y][x]))
+    }
+    $tbody.appendChild($tr)
+  }
+
+  $table.appendChild($tbody)
+  return $table
+}
+const process = (val) => {
+  const $td = document.createElement('td')
+  if (val !== '') {
+    $td.textContent = val
+    $td.className = val
+  }
+  return $td
+}
+const $elevation = getTableFromArray2([
+  ['u'],
+  [''],
+  ['d']
+], process)
+$elevation.className = 'controls elevation'
+$container.appendChild($elevation)
+const $cardinal = getTableFromArray2([
+  ['', 'n', ''],
+  ['w', '', 'e'],
+  ['', 's', '']
+], process)
+$cardinal.className = 'controls cardinal'
+$container.appendChild($cardinal)
+document.body.appendChild($container)
 
 // Create all of the elements (and add them)
 const $cells = Array3({ size })

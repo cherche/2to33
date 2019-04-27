@@ -49,6 +49,7 @@ td {
   font-size: 6vh;
   width: 36vh;
   height: 36vh;
+  text-transform: uppercase;
 }
 
 .controls td {
