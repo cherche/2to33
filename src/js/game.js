@@ -175,7 +175,7 @@ export default function Game ({ size }) {
 
   const addRandomTile = function addRandomTile () {
     let done = false
-    const value = getRandomVal([2, 4])
+    const value = getRandomVal([2, 4, 8, 16])
 
     do {
       const coords = [
