@@ -94,12 +94,12 @@ updateCells()
 
 const move = function move (button) {
   const args = {
-    'w': [0, 0],
-    'e': [0, 1],
-    'n': [1, 0],
-    's': [1, 1],
-    'u': [2, 0],
-    'd': [2, 1]
+    w: [0, 0],
+    e: [0, 1],
+    n: [1, 0],
+    s: [1, 1],
+    u: [2, 0],
+    d: [2, 1]
   }
   const [axis, dir] = args[button]
   // Don't allow people to make invalid moves
@@ -112,11 +112,30 @@ const move = function move (button) {
 
 // We still don't have a check for a game over (no valid moves)
 // I don't know when I'll throw one in
-const pressHandler = PressHandler(document.body, (e) => {
+PressHandler(document.body, (e) => {
   // Only do this for primary clicks (left click for most)
   if (e.button !== 0) return
   const target = e.target
   if (target.tagName === 'TD' && target.className) {
     move(target.className)
+  }
+})
+
+// And also, we'll throw in some keyboard controls
+window.addEventListener('keydown', (e) => {
+  const mappings = {
+    n: ['ArrowUp', 'n'],
+    e: ['ArrowRight', 'e'],
+    s: ['ArrowDown', 's'],
+    w: ['ArrowLeft', 'w'],
+    u: ['a', ' '],
+    d: ['z', 'Shift']
+  }
+
+  for (let key of Object.keys(mappings)) {
+    if (mappings[key].includes(e.key)) {
+      move(key)
+      break
+    }
   }
 })
