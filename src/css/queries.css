@@ -21,3 +21,21 @@
     margin: 4vmin 0;
   }
 }
+
+/* Note that this is a subset of the above query */
+@media screen and (max-aspect-ratio: 3/4) {
+  main {
+    justify-content: center;
+  }
+
+  main table {
+    border-spacing: 1vmin;
+    margin: 2vmin 0;
+  }
+
+  main td {
+    text-align: center;
+    height: 6vmin;
+    width: 12vmin;
+  }
+}
