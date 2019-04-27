@@ -121,15 +121,17 @@ PressHandler(document.body, (e) => {
   }
 })
 
-// And also, we'll throw in some keyboard controls
+// And we'll also throw in some keyboard controls
 window.addEventListener('keydown', (e) => {
+  // We define it this way so that you can have more than
+  // one keybinding for each direction
   const mappings = {
-    n: ['ArrowUp', 'n'],
-    e: ['ArrowRight', 'e'],
+    n: ['ArrowUp', 'w'],
+    e: ['ArrowRight', 'd'],
     s: ['ArrowDown', 's'],
-    w: ['ArrowLeft', 'w'],
-    u: ['a', ' '],
-    d: ['z', 'Shift']
+    w: ['ArrowLeft', 'a'],
+    u: ['r'],
+    d: ['f']
   }
 
   for (let key of Object.keys(mappings)) {
