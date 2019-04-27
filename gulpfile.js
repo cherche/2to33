@@ -7,7 +7,7 @@ const babel = require('gulp-babel')
 const minify = require('gulp-babel-minify')
 
 gulp.task('css', () => {
-  return gulp.src(['src/css/main.css', 'src/css/colours.css'])
+  return gulp.src(['src/css/main.css', 'src/css/queries.css', 'src/css/colours.css'])
     .pipe(concat('bundle.css'))
     .pipe(cleanCSS({ compatibility: '*' }))
     .pipe(gulp.dest('dist'))

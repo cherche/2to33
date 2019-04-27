@@ -1,0 +1,23 @@
+@media screen and (max-aspect-ratio: 5/4) {
+  body {
+    display: block;
+  }
+
+  .container {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  main {
+    order: 0;
+    margin: 0 5vmin 0 0;
+  }
+
+  .controls {
+    order: 1;
+    font-size: 4vmin;
+    width: 30vmin;
+    height: 30vmin;
+    margin: 4vmin 0;
+  }
+}
