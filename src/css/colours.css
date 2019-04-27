@@ -24,17 +24,13 @@ main td.d0 {
   background-color: #cfc1b3;
 }
 
+/* For any higher numbers, just go with this grey */
 main td.d2,
 main td.d4 {
   color: #786e64;
 }
 
-main td.d8,
-main td.d16,
-main td.d32,
-main td.d64,
-main td.d128,
-main td.d256 {
+main td {
   color: #f8f5f1;
 }
 
