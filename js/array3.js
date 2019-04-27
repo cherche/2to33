@@ -1,4 +1,4 @@
-function Array3 ({ fill, size }) {
+export default function Array3 ({ fill, size }) {
   const [length, width, height] = size
 
   const arr3 = []
@@ -29,5 +29,3 @@ function Array3 ({ fill, size }) {
 
   return arr3
 }
-
-export default Array3
