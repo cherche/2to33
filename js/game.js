@@ -192,23 +192,8 @@ export default function Game ({ size }) {
     } while (!done)
   }
 
-  const getMapString = function getMapString () {
-    let string = ''
-
-    // Order of iteration matters
-    for (let z = 0; z < height; z++) {
-      for (let y = 0; y < width; y++) {
-        for (let x = 0; x < length; x++) {
-          const display = map[x][y][z] || '.'
-          string += display + '\t'
-        }
-        string += '\n'
-      }
-
-      string += '\n\n'
-    }
-
-    return string
+  const getMapValue = function getMapValue ([x, y, z]) {
+    return map[x][y][z]
   }
 
   return {
@@ -217,6 +202,6 @@ export default function Game ({ size }) {
     getValidMoves,
     move,
     addRandomTile,
-    getMapString
+    getMapValue
   }
 }
