@@ -53,13 +53,17 @@ const move = function move (button) {
     'u': [2, 0],
     'd': [2, 1]
   }
-  game.move(...args[button])
+  const [axis, dir] = args[button]
+  // Don't allow people to make invalid moves
+  // That takes away the challenge
+  if (!game.isValidMove(axis, dir)) return
+  game.move(axis, dir)
   game.addRandomTile()
   updateCells()
 }
 
-window.move = move
-
+// We still don't have a check for a game over (no valid moves)
+// I don't know when I'll throw one in
 document.body.addEventListener('mousedown', (e) => {
   // Only do this for primary clicks (left click for most)
   if (e.button !== 0) return
