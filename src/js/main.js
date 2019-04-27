@@ -1,5 +1,6 @@
 import Game from './game.js'
 import Array3 from './array3.js'
+import PressHandler from './press.js'
 
 const size = [4, 4, 4]
 const [LENGTH, WIDTH, HEIGHT] = size
@@ -65,7 +66,7 @@ const move = function move (button) {
 
 // We still don't have a check for a game over (no valid moves)
 // I don't know when I'll throw one in
-document.body.addEventListener('mousedown', (e) => {
+const pressHandler = PressHandler(document.body, (e) => {
   // Only do this for primary clicks (left click for most)
   if (e.button !== 0) return
   const target = e.target
