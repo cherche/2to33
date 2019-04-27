@@ -3,6 +3,9 @@ import Array3 from './array3.js'
 
 export default function Game ({ size }) {
   const [length, width, height] = size
+  // Upon the completion of a valid move, we stomp over
+  // map with a new 3D array
+  // I really think this is the cleanest way, but I don't like it
   const map = Array3({ fill: 0, size })
 
   // This stuff just deals with order of iteration
@@ -20,8 +23,79 @@ export default function Game ({ size }) {
     return orientations[axis]
   }
 
-  // I will need to add some sort of check to see if
-  // there are any valid moves
+  // This is essentially a stripped down version of the move() function
+  const isValidMove = function isValidMove (axis, dir) {
+    // For brevity, we'll define a local orient function
+    const lOrient = function lOrient (vals) {
+      return orient(vals, axis)
+    }
+    // This doesn't orient in exactly the same way as coordinates,
+    // but it's a pretty close match
+    const [mMax, nMax, aMax] = lOrient([length, width, height])
+
+    for (let m = 0; m < mMax; m++) {
+      for (let n = 0; n < nMax; n++) {
+        // Start by gathering all of the stuff that we care about (not 0)
+        const nonBlanks = []
+
+        // We'll check to see if there are any zeroes that will get squished
+        // as a result of the move. That is, any zero surrounded by non-zeroes
+        // Example: 0 2 0 4
+        let squishPotential = false
+        for (let a = 0; a < aMax; a++) {
+          // If we were actually shifting the other way,
+          // we would also be merging the other way
+          const b = (dir === 1) ? (aMax - 1) - a : a
+          const [x, y, z] = lOrient([m, n, b])
+          // If we run into any zeroes, we're going to be on alert
+          // for when we run into any non-zeroes after
+          if (map[x][y][z] === 0) squishPotential = true
+          if (map[x][y][z] !== 0) {
+            // Oh damn, there's squishing!
+            // This means that the move must be valid
+            if (squishPotential) return true
+            nonBlanks.push(map[x][y][z])
+          }
+        }
+
+        // Using the nonBlanks array, we'll merge adjacent duplicates
+        let i = 0
+        while (i < nonBlanks.length - 1) {
+          // Merge should only be called after swiped, so if we
+          // run into a zero, there is no more merging after
+          if (nonBlanks[i] === 0 || nonBlanks[i + 1] === 0) break
+
+          // If they match, we'll merge them together
+          if (nonBlanks[i] === nonBlanks[i + 1]) {
+            // This means that the move must be valid
+            return true
+          }
+
+          i++
+        }
+      }
+    }
+
+    // Wow, all of that work and it actually wasn't valid
+    return false
+  }
+
+  const hasValidMoves = function hasValidMoves () {
+    const DIMENSION = 3
+    const DIRECTIONS = 2
+
+    for (let axis = 0; axis < DIMENSION; axis++) {
+      for (let dir = 0; dir < DIRECTIONS; dir++) {
+        if (isValidMove(axis, dir)) return true
+      }
+    }
+
+    return false
+  }
+
+  // There is a danger zone here:
+  // If there are no valid moves, this is an infinite loop
+  // Users must check for validity themselves using an above function
   const move = function move (axis, dir) {
     // For brevity, we'll define a local orient function
     const lOrient = function lOrient (vals) {
@@ -106,6 +180,7 @@ export default function Game ({ size }) {
   const getMapString = function getMapString () {
     let string = ''
 
+    // Order of iteration matters
     for (let z = 0; z < height; z++) {
       for (let y = 0; y < width; y++) {
         for (let x = 0; x < length; x++) {
@@ -122,6 +197,8 @@ export default function Game ({ size }) {
   }
 
   return {
+    isValidMove,
+    hasValidMoves,
     move,
     addRandomTile,
     getMapString

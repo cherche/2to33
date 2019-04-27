@@ -8,7 +8,6 @@ game.addRandomTile()
 game.addRandomTile()
 
 const pre = document.body.querySelector('pre')
-
 pre.innerHTML = game.getMapString()
 
 window.f = (...args) => {
