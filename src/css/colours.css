@@ -11,11 +11,18 @@ main table {
   color: white;
 }
 
-.controls.cardinal td[class] {
+.controls .w,
+.controls .e {
   background-color: #5d92cb;
 }
 
-.controls.elevation td[class] {
+.controls .n,
+.controls .s {
+  background-color: #5d92cb;
+}
+
+.controls .u,
+.controls .d {
   background-color: #6cc19c;
 }
 
