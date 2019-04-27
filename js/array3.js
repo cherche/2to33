@@ -24,6 +24,7 @@ function Array3 ({ fill, size }) {
         clone[x][y] = arr3[x][y].slice()
       }
     }
+    return clone
   }
 
   return arr3
