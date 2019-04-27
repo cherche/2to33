@@ -64,16 +64,7 @@ td {
   cursor: pointer;
 }
 
-.controls.elevation {
-  order: 0;
-}
-
-.controls.cardinal {
-  order: 2;
-}
-
 main {
-  order: 1;
   display: inline-flex;
   flex-direction: column;
   justify-content: space-between;

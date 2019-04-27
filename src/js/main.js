@@ -14,7 +14,6 @@ $container.className = 'container'
 
 // Set up the game area
 const $main = document.createElement('main')
-$container.appendChild($main)
 
 // Set up the controls
 const getTableFromArray2 = function getTableFromArray2 (arr2, process) {
@@ -47,15 +46,12 @@ const $elevation = getTableFromArray2([
   ['d']
 ], process)
 $elevation.className = 'controls elevation'
-$container.appendChild($elevation)
 const $cardinal = getTableFromArray2([
   ['', 'n', ''],
   ['w', '', 'e'],
   ['', 's', '']
 ], process)
 $cardinal.className = 'controls cardinal'
-$container.appendChild($cardinal)
-document.body.appendChild($container)
 
 // Create all of the elements (and add them)
 const $cells = Array3({ size })
@@ -88,6 +84,12 @@ const updateCells = function updateCells () {
     }
   }
 }
+
+// Finally, add everything to the DOM
+$container.appendChild($elevation)
+$container.appendChild($main)
+$container.appendChild($cardinal)
+document.body.appendChild($container)
 
 // Call updateCells() to initially show the board
 updateCells()
