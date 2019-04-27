@@ -93,6 +93,21 @@ export default function Game ({ size }) {
     return false
   }
 
+  const getValidMoves = function getValidMoves () {
+    const moves = []
+
+    const DIMENSION = 3
+    const DIRECTIONS = 2
+
+    for (let axis = 0; axis < DIMENSION; axis++) {
+      for (let dir = 0; dir < DIRECTIONS; dir++) {
+        if (isValidMove(axis, dir)) moves.push([axis, dir])
+      }
+    }
+
+    return moves
+  }
+
   // There is a danger zone here:
   // If there are no valid moves, this is an infinite loop
   // Users must check for validity themselves using an above function
@@ -199,6 +214,7 @@ export default function Game ({ size }) {
   return {
     isValidMove,
     hasValidMoves,
+    getValidMoves,
     move,
     addRandomTile,
     getMapString

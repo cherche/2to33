@@ -2,8 +2,6 @@ import Game from './game.js'
 
 const game = Game({ size: [4, 4, 4] })
 
-console.log(game)
-
 game.addRandomTile()
 game.addRandomTile()
 
