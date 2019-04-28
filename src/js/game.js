@@ -1,7 +1,7 @@
 import { getRandomInt, getRandomVal } from './probability.js'
 import Array3 from './array3.js'
 
-export default function Game ({ size }) {
+export default function Game ({ size, tileGenesisList }) {
   const [length, width, height] = size
   // Upon the completion of a valid move, we stomp over
   // map with a new 3D array
@@ -43,8 +43,11 @@ export default function Game ({ size }) {
         // Example: 0 2 0 4
         let squishPotential = false
         for (let a = 0; a < aMax; a++) {
-          // If we were actually shifting the other way,
-          // we would also be merging the other way
+          // If we are shifting the other way, we should also
+          // collect nonBlanks in their to-be-squished priority order
+          // Example: 4 0 2 2 -> [2, 2, 4] if dir = 1
+          // This way, we don't need to reprogram the merge while loop
+          // to go in the opposite direction
           const b = (dir === 1) ? (aMax - 1) - a : a
           const [x, y, z] = lOrient([m, n, b])
           // If we run into any zeroes, we're going to be on alert
@@ -126,13 +129,15 @@ export default function Game ({ size }) {
         const nonBlanks = []
 
         for (let a = 0; a < aMax; a++) {
-          const [x, y, z] = lOrient([m, n, a])
+          // If we are shifting the other way, we should also
+          // collect nonBlanks in their to-be-squished priority order
+          // Example: 4 0 2 2 -> [2, 2, 4] if dir = 1
+          // This way, we don't need to reprogram the merge while loop
+          // to go in the opposite direction
+          const b = (dir === 1) ? (aMax - 1) - a : a
+          const [x, y, z] = lOrient([m, n, b])
           if (map[x][y][z] !== 0) nonBlanks.push(map[x][y][z])
         }
-
-        // If we were actually shifting the other way,
-        // we would also be merging the other way
-        if (dir === 1) nonBlanks.reverse()
 
         // Using the nonBlanks array, we'll merge adjacent duplicates
         let i = 0
@@ -153,43 +158,57 @@ export default function Game ({ size }) {
           i++
         }
 
-        // Renaming to have a less misleading name because of what we're about to do
-        const series = nonBlanks
-
-        // Fill the rest with 0s so that its length is appropriate
-        while (series.length < aMax) {
-          series.push(0)
-        }
-
-        // Accounting for the reverse earlier (if applicable)
-        if (dir === 1) series.reverse()
-
         // Finally, we put the nonBlanks back in the row/column/other
         for (let a = 0; a < aMax; a++) {
-          const [x, y, z] = lOrient([m, n, a])
-          map[x][y][z] = series[a]
+          // If the direction was reversed, then we collected nonBlanks
+          // in an order opposite to the natural row/column/other, so this
+          // just accounts for that earlier reversal
+          const b = (dir === 1) ? (aMax - 1) - a : a
+          const [x, y, z] = lOrient([m, n, b])
+
+          // We'll fill it with as many nonBlanks as we can,
+          // but once we're out, the rest must be blanks
+          if (a < nonBlanks.length) {
+            map[x][y][z] = nonBlanks[a]
+          } else {
+            map[x][y][z] = 0
+          }
         }
       }
     }
   }
 
-  const addRandomTile = function addRandomTile () {
-    let done = false
-    const value = getRandomVal([2, 4, 8, 16])
+  const getBlanks = function getBlanks () {
+    const blanks = []
 
-    do {
-      const coords = [
-        getRandomInt(0, length),
-        getRandomInt(0, width),
-        getRandomInt(0, height)
-      ]
-      const [x, y, z] = coords
-
-      if (map[x][y][z] === 0) {
-        map[x][y][z] = value
-        done = true
+    for (let x = 0; x < length; x++) {
+      for (let y = 0; y < width; y++) {
+        for (let z = 0; z < height; z++) {
+          if (map[x][y][z] === 0) blanks.push([x, y, z])
+        }
       }
-    } while (!done)
+    }
+
+    return blanks
+  }
+
+  const addRandomTile = function addRandomTile (count) {
+    const blanks = getBlanks()
+    if (blanks.length === 0) return
+
+    const value = getRandomVal(tileGenesisList)
+    const index = getRandomInt(0, blanks.length)
+    const [x, y, z] = blanks[index]
+    map[x][y][z] = value
+
+    // Let the caller know that a random tile was successfully added
+    return true
+  }
+
+  const addRandomTiles = function addRandomTiles (count) {
+    // Recursion is more efficient because it stops as soon
+    // as the board becomes full
+    if (addRandomTile() && count > 1) addRandomTiles(count - 1)
   }
 
   const getMapValue = function getMapValue ([x, y, z]) {
@@ -201,7 +220,9 @@ export default function Game ({ size }) {
     hasValidMoves,
     getValidMoves,
     move,
+    getBlanks,
     addRandomTile,
+    addRandomTiles,
     getMapValue
   }
 }

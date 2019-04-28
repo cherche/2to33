@@ -2,12 +2,15 @@ import Game from './game.js'
 import Array3 from './array3.js'
 import PressHandler from './press.js'
 
-const size = [4, 4, 4]
-const [LENGTH, WIDTH, HEIGHT] = size
+const SIZE = [4, 4, 4]
+const [LENGTH, WIDTH, HEIGHT] = SIZE
+const TILE_GENESIS_LIST = [2, 4, 8, 16]
 
-const game = Game({ size })
-game.addRandomTile()
-game.addRandomTile()
+// Initialize the game
+const game = Game({ size: SIZE, tileGenesisList: TILE_GENESIS_LIST })
+// More dimensions makes the game too easy, so we'll try to add
+// more tiles than the original 2048 whenever possible
+game.addRandomTiles(8)
 
 const $container = document.createElement('div')
 $container.className = 'container'
@@ -54,7 +57,7 @@ const $cardinal = getTableFromArray2([
 $cardinal.className = 'controls cardinal'
 
 // Create all of the elements (and add them)
-const $cells = Array3({ size })
+const $cells = Array3({ size: SIZE })
 for (let z = 0; z < HEIGHT; z++) {
   const $table = document.createElement('table')
   $table.className = 't' + z
@@ -108,7 +111,10 @@ const move = function move (button) {
   // That takes away the challenge
   if (!game.isValidMove(axis, dir)) return
   game.move(axis, dir)
-  game.addRandomTile()
+  // Some personal testing made me decide that
+  // it's hard enough to think in 3D, so I didn't go crazy
+  // with the tile genesis count
+  game.addRandomTiles(2)
   updateCells()
 }
 
@@ -116,8 +122,15 @@ const move = function move (button) {
 // I don't know when I'll throw one in
 PressHandler(document.body, (e) => {
   const target = e.target
-  if (target.tagName === 'TD' && target.className !== '') {
-    console.log('we made it')
+  if (
+    target.tagName === 'TD' &&
+    // The grandparent element should always exist, but if we ever
+    // decide to do something crazy, there will be no errors
+    target.parentElement &&
+    target.parentElement.parentElement &&
+    target.parentElement.parentElement.classList.contains('controls') &&
+    target.className !== ''
+  ) {
     move(target.className)
   }
 })
