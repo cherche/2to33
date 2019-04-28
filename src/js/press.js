@@ -5,6 +5,8 @@ export default function PressHandler (el, handler) {
   }
 
   const conditionedHandler = (e) => {
+    // Only do this for primary clicks (left click for most)
+    if (e instanceof MouseEvent && e.button !== 0) return
     if (!pressHandler.active) return
     handler(e)
   }

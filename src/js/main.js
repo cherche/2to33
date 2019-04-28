@@ -115,10 +115,9 @@ const move = function move (button) {
 // We still don't have a check for a game over (no valid moves)
 // I don't know when I'll throw one in
 PressHandler(document.body, (e) => {
-  // Only do this for primary clicks (left click for most)
-  if (e.button !== 0) return
   const target = e.target
-  if (target.tagName === 'TD' && target.className) {
+  if (target.tagName === 'TD' && target.className !== '') {
+    console.log('we made it')
     move(target.className)
   }
 })
