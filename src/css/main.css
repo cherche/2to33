@@ -67,10 +67,10 @@ main {
   display: flex;
   flex-direction: column;
   /*
-  space-around doesn't seem to be supported in some mobile Safari versions :/
+  space-evenly doesn't seem to be supported in some mobile Safari versions :/
   I'll use it anyway, though.
   */
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   align-content: center;
   height: 100vh;
