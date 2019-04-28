@@ -66,8 +66,11 @@ td {
 main {
   display: flex;
   flex-direction: column;
-  /* space-between isn't support in some mobile Safari versions :/ */
-  justify-content: space-around;
+  /*
+  space-between doesn't seem to be supported in some mobile Safari versions :/
+  I'll use it anyway, though.
+  */
+  justify-content: space-between;
   align-items: center;
   align-content: center;
   height: 100vh;
