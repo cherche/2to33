@@ -122,14 +122,18 @@ const move = function move (button) {
 // I don't know when I'll throw one in
 PressHandler(document.body, (e) => {
   const target = e.target
+  // I'm assigning this value just for brevity in the below conditions
+  const p = 'parentElement'
+
   if (
     target.tagName === 'TD' &&
-    // The grandparent element should always exist, but if we ever
-    // decide to do something crazy, there will be no errors
-    target.parentElement &&
-    target.parentElement.parentElement &&
-    target.parentElement.parentElement.classList.contains('controls') &&
-    target.className !== ''
+    target.className !== '' &&
+    // The great-grandparent element should always exist, but if
+    // we ever decide to do something crazy, there will be no errors
+    target[p] &&
+    target[p][p] &&
+    target[p][p][p] &&
+    target[p][p][p].classList.contains('controls')
   ) {
     move(target.className)
   }
