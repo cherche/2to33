@@ -121,7 +121,7 @@ const move = function move (button) {
 // We still don't have a check for a game over (no valid moves)
 // I don't know when I'll throw one in
 PressHandler(document.body, (e) => {
-  if (e instanceof MouseEvent && e.button !== 0) return
+  if (e.button !== 0) return
 
   const target = e.target
   // I'm assigning this value just for brevity in the below conditions
