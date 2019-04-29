@@ -120,7 +120,7 @@ const move = function move (button) {
 
 // We still don't have a check for a game over (no valid moves)
 // I don't know when I'll throw one in
-PressHandler(document.body, (e) => {
+const pressHandler = PressHandler(document.body, (e) => {
   if (e.button !== 0) return
 
   const target = e.target
@@ -140,6 +140,7 @@ PressHandler(document.body, (e) => {
     move(target.className)
   }
 })
+pressHandler.bind()
 
 // And we'll also throw in some keyboard controls
 window.addEventListener('keydown', (e) => {

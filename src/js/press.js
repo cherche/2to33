@@ -26,7 +26,5 @@ export default function PressHandler (el, handler) {
     el.removeEventListener('touchstart', touchHandler)
   }
 
-  pressHandler.bind()
-
   return pressHandler
 }
